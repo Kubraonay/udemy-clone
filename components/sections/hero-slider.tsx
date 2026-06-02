@@ -2,10 +2,11 @@
 
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { heroSlides } from "@/lib/data/dashboard";
 import { Button } from "@/components/ui/button";
+import { CarouselNav } from "@/components/ui/carousel-nav";
 import { Container } from "@/components/ui/container";
+import { cn } from "@/lib/utils";
 
 export function HeroSlider() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000 })]);
@@ -13,25 +14,31 @@ export function HeroSlider() {
   return (
     <section className="bg-background pt-5 sm:pt-8">
       <Container>
-        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl">
+        <div className="relative isolate overflow-hidden rounded-2xl sm:rounded-3xl">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
               {heroSlides.map((slide) => (
                 <div key={slide.id} className="min-w-0 flex-[0_0_100%]">
                   <div
-                    className={`min-h-[280px] bg-gradient-to-br ${slide.gradientClass} p-5 text-white transition-all duration-500 sm:min-h-[340px] sm:p-10 lg:min-h-[380px] lg:p-12`}
+                    className={cn(
+                      "flex min-h-[300px] w-full flex-col justify-center bg-gradient-to-br px-6 py-10 text-white sm:min-h-[360px] sm:px-10 sm:py-12 lg:min-h-[400px] lg:px-12 lg:py-14",
+                      slide.gradientClass,
+                    )}
                   >
-                    <div className="max-w-2xl space-y-5">
-                      <h1 className="text-2xl font-bold leading-tight sm:text-4xl lg:text-5xl">{slide.title}</h1>
-                      <p className="text-sm font-medium text-white/95 sm:text-lg">{slide.description}</p>
+                    <div className="max-w-2xl space-y-5 pr-4 sm:pr-0">
+                      <h1 className="text-3xl font-bold leading-tight sm:text-5xl lg:text-6xl">{slide.title}</h1>
+                      <p className="max-w-xl text-base leading-relaxed text-white/95 sm:text-xl">{slide.description}</p>
                       <div className="flex flex-wrap items-center gap-3 pt-1">
-                        <Button variant="secondary" size="sm" className="sm:h-10 sm:px-4 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
+                        <Button
+                          type="button"
+                          className="h-10 rounded-full border-0 bg-black px-5 text-base font-semibold text-white shadow-sm hover:bg-zinc-900 sm:h-11 sm:px-6"
+                        >
                           {slide.ctaPrimary}
                         </Button>
                         <Button
+                          type="button"
                           variant="outline"
-                          size="sm"
-                          className="sm:h-10 sm:px-4 border-white/60 bg-white/10 text-white hover:bg-white/20 dark:border-white/50 dark:bg-white/10"
+                          className="h-10 rounded-full border-2 border-white/70 bg-white/10 px-5 text-base font-semibold text-white hover:bg-white/20 sm:h-11 sm:px-6"
                         >
                           {slide.ctaSecondary}
                         </Button>
@@ -42,24 +49,11 @@ export function HeroSlider() {
               ))}
             </div>
           </div>
-          <div className="absolute bottom-4 right-4 flex items-center gap-2 sm:bottom-6 sm:right-6">
-            <button
-              type="button"
-              onClick={() => emblaApi?.scrollPrev()}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/70 bg-black/20 text-white backdrop-blur transition hover:bg-black/30 sm:h-10 sm:w-10"
-              aria-label="Önceki"
-            >
-              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => emblaApi?.scrollNext()}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/70 bg-black/20 text-white backdrop-blur transition hover:bg-black/30 sm:h-10 sm:w-10"
-              aria-label="Sonraki"
-            >
-              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
-          </div>
+          <CarouselNav
+            variant="overlay"
+            onPrev={() => emblaApi?.scrollPrev()}
+            onNext={() => emblaApi?.scrollNext()}
+          />
         </div>
       </Container>
     </section>

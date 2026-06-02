@@ -21,10 +21,19 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: "h-9 px-3 text-sm",
-  md: "h-10 px-4 text-sm",
-  lg: "h-11 px-5 text-base",
+  sm: "h-10 px-4 text-base",
+  md: "h-11 px-5 text-base",
+  lg: "h-12 px-6 text-lg",
 };
+
+export function buttonClassName(variant: ButtonVariant = "primary", size: ButtonSize = "md", className?: string) {
+  return cn(
+    "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/70",
+    variantClasses[variant],
+    sizeClasses[size],
+    className,
+  );
+}
 
 export function Button({
   className,
@@ -34,12 +43,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/70 disabled:pointer-events-none disabled:opacity-50",
-        variantClasses[variant],
-        sizeClasses[size],
-        className,
-      )}
+      className={cn(buttonClassName(variant, size, className), "disabled:pointer-events-none disabled:opacity-50")}
       {...props}
     />
   );

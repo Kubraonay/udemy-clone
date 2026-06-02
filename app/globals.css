@@ -1,8 +1,21 @@
 @import "tailwindcss";
 
+/* next-themes (.dark class) ile uyumlu — OS tercihi tek başına dark: uygulamasın */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #f7f7fb;
-  --foreground: #121217;
+  --foreground: #000000;
+}
+
+html {
+  font-size: 17px;
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 18px;
+  }
 }
 
 @theme inline {
